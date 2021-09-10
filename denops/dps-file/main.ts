@@ -60,30 +60,40 @@ export async function main(d: Denops): Promise<void> {
     },
 
     async up(): Promise<void> {
-      var dir = await buffers.get(d, "dps_file_dir")
-      ensureString(dir)
-      dir = dir.replace(/\/$/, '')
-      var name = await d.call('fnamemodify', dir, ':t:gs!\\!/!')
+      var dir = await buffers.get(d, "dps_file_dir");
+      ensureString(dir);
+      dir = dir.replace(/\/$/, "");
+      var name = await d.call("fnamemodify", dir, ":t:gs!\\!/!");
       if (name == "") {
-        return
+        return;
       }
-      dir = await d.call('fnamemodify', dir, ':p:h:h:gs!\\!/!')
-      ensureString(dir)
-      await d.cmd(`execute 'edit' fnameescape("${dir}")`)
-      await d.call('search', '\\v^\\V' + (await d.call('escape', name,'\\')) + '/\\v$', 'c')
+      dir = await d.call("fnamemodify", dir, ":p:h:h:gs!\\!/!");
+      ensureString(dir);
+      await d.cmd(`execute 'edit' fnameescape("${dir}")`);
+      await d.call(
+        "search",
+        "\\v^\\V" + (await d.call("escape", name, "\\")) + "/\\v$",
+        "c",
+      );
     },
 
     async home(): Promise<void> {
-      await d.cmd(`exe 'edit' fnameescape(substitute(fnamemodify(expand('~'), ':p:gs!\\!/!'), '/$', '', ''))`)
+      await d.cmd(
+        `exe 'edit' fnameescape(substitute(fnamemodify(expand('~'), ':p:gs!\\!/!'), '/$', '', ''))`,
+      );
     },
-    
+
     async reload(): Promise<void> {
-      await d.cmd('edit')
+      await d.cmd("edit");
     },
 
     async toggle_hidden(): Promise<void> {
-      await globals.set(d, 'dps_file_show_hidden', !((await globals.get(d, 'dps_file_show_hidden')) ?? false))
-    }
+      await globals.set(
+        d,
+        "dps_file_show_hidden",
+        !((await globals.get(d, "dps_file_show_hidden")) ?? false),
+      );
+    },
   };
 
   await autocmd.group(d, "_dps_file_", (helper) => {
