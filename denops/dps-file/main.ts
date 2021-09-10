@@ -79,7 +79,7 @@ export async function main(d: Denops): Promise<void> {
 
     async home(): Promise<void> {
       await d.cmd(
-        `exe 'edit' fnameescape(substitute(fnamemodify(expand('~'), ':p:gs!\\!/!'), '/$', '', ''))`,
+        `execute 'edit' fnameescape(substitute(fnamemodify(expand('~'), ':p:gs!\\!/!'), '/$', '', ''))`,
       );
     },
 
