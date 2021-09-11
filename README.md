@@ -1,5 +1,5 @@
 # Dps-File
-a clone of molder.vim based on denops
+a clone of vim-molder based on denops
 
 # Usage
 
