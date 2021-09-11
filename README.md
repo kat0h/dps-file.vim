@@ -3,12 +3,7 @@ a clone of molder.vim based on denops
 
 # Usage
 
-```
-let g:loaded_netrw             = 1
-let g:loaded_netrwFileHandlers = 1
-let g:loaded_netrwPlugin       = 1
-let g:loaded_netrwSettings     = 1
-```
+[see doc](https://github.com/kat0h/dps-file.vim/blob/master/doc/dps_file.txt)
 
 # License
 MIT
