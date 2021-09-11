@@ -1,0 +1,44 @@
+*dps_file.txt* dps_file: denops-vimを基にしたvim-molderのクローン
+
+
+==============================================================================
+インストール                                             *dps_file_installation*
+
+denoとdenops.vimに依存しています。
+
+vim-plug:
+>
+ Plug 'vim-denops/denops.vim'
+ Plug 'kat0h/dps_file'
+<
+
+==============================================================================
+使い方                                                          *dps_file_usage*
+
+>
+ $ vim /path/to/file
+ :e /path/to/file
+<
+
+==============================================================================
+キーマップ                                                *dps_file_keymappings*
+
+* "-" 親ディレクトリに移動 <plug>(dps-file-up)
+* "~" ホームディレクトリに移動 <plug>(dps-file-home)
+* "+" 隠しファイル表示のトグル <plug>(dps-file-home)<plug>(dps-file-reload)
+* "\\" リロード <plug>(dps-file-reload)
+* "<CR>" カーソル下のファイルやディレクトリを開く
+
+==============================================================================
+注意                                                             *dps_file_info*
+
+molder-vimのプラグインにあたる機能はありません
+
+==============================================================================
+作った人
+kota kato
+
+オリジナル
+https://github.com/mattn/vim-molder
+
+vim:tw=78:ts=8:noet:ft=help:norl:

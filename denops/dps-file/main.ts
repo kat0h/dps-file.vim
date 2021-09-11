@@ -10,7 +10,7 @@ import {
 import { batch } from "https://deno.land/x/denops_std@v1.9.0/batch/mod.ts";
 import * as autocmd from "https://deno.land/x/denops_std@v1.9.1/autocmd/mod.ts";
 
-export async function main(d: Denops): Promise<void> {
+export async function main(d: Denops) {
   d.dispatcher = {
     async init(): Promise<void> {
       var path = await d.call("resolve", await d.call("expand", "%:p"));
@@ -54,8 +54,13 @@ export async function main(d: Denops): Promise<void> {
     },
 
     async open(): Promise<void> {
-      await d.cmd(
-        `execute 'edit' fnameescape(b:dps_file_dir .. substitute(getline('.'), '/$', '', ''))`,
+      await edit(
+        d,
+        await d.call(
+          "fnameescape",
+          (await buffers.get(d, "dps_file_dir") as string) +
+            (await d.call("getline", ".") as string).replace(/\/$/, ""),
+        ),
       );
     },
 
@@ -69,7 +74,7 @@ export async function main(d: Denops): Promise<void> {
       }
       dir = await d.call("fnamemodify", dir, ":p:h:h:gs!\\!/!");
       ensureString(dir);
-      await d.cmd(`execute 'edit' fnameescape("${dir}")`);
+      await edit(d, await d.call("fnameescape", dir));
       await d.call(
         "search",
         "\\v^\\V" + (await d.call("escape", name, "\\")) + "/\\v$",
@@ -78,13 +83,21 @@ export async function main(d: Denops): Promise<void> {
     },
 
     async home(): Promise<void> {
-      await d.cmd(
-        `execute 'edit' fnameescape(substitute(fnamemodify(expand('~'), ':p:gs!\\!/!'), '/$', '', ''))`,
+      await edit(
+        d,
+        await d.call(
+          "fnameescape",
+          ((await d.call(
+            "fnamemodify",
+            (await d.call("expand", "~")),
+            ":p:gs!\\!/!",
+          )) as string).replace(/\/$/, ""),
+        ),
       );
     },
 
     async reload(): Promise<void> {
-      await d.cmd("edit");
+      await edit(d, "");
     },
 
     async toggle_hidden(): Promise<void> {
@@ -103,6 +116,7 @@ export async function main(d: Denops): Promise<void> {
       `call denops#request('${d.name}', 'init', [])`,
     );
   });
+  await d.call("g:denops#request", d.name, "init", []);
 }
 
 const isDirectory = async (denops: Denops, path: string): Promise<boolean> => {
@@ -117,4 +131,11 @@ const name = (item: Deno.DirEntry): string => {
     isDir = true;
   }
   return item.name + (isDir ? "/" : "");
+};
+
+// try\n edit /\nendtry でautocmdが発火しないのでワークアラウンド
+// thanks > @kuuote
+const edit = async (denops: Denops, path: unknown): Promise<void> => {
+  ensureString(path);
+  await denops.cmd(`call feedkeys(":\\<C-u>edit ${path}\\<CR>")`);
 };
