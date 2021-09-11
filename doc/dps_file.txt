@@ -20,6 +20,9 @@ vim-plug:
  :e /path/to/file
 <
 
+g:dps_file_show_hidden = v:true
+ v:trueを設定すると、隠しファイルを標準で表示します
+
 ==============================================================================
 キーマップ                                                *dps_file_keymappings*
 
