@@ -1,14 +1,14 @@
-import { Denops } from "https://deno.land/x/denops_std@v1.9.0/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v1.10.0/mod.ts";
 import {
   buffers,
   globals,
-} from "https://deno.land/x/denops_std@v1.9.0/variable/mod.ts";
+} from "https://deno.land/x/denops_std@v1.10.0/variable/mod.ts";
 import {
   ensureNumber,
   ensureString,
 } from "https://deno.land/x/unknownutil@v1.1.0/mod.ts";
-import { batch } from "https://deno.land/x/denops_std@v1.9.0/batch/mod.ts";
-import * as autocmd from "https://deno.land/x/denops_std@v1.9.1/autocmd/mod.ts";
+import { batch } from "https://deno.land/x/denops_std@v1.10.0/batch/mod.ts";
+import * as autocmd from "https://deno.land/x/denops_std@v1.10.0/autocmd/mod.ts";
 
 export async function main(d: Denops) {
   d.dispatcher = {
